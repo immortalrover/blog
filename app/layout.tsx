@@ -12,7 +12,7 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
 const raleway = Raleway({
-	subsets: ['cyrillic'],
+	subsets: ['latin'],
 	display: 'swap',
 })
 
