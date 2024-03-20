@@ -12,8 +12,8 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
 const raleway = Raleway({
-	subsets: ['latin'],
-	display: 'swap',
+  subsets: ['latin'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {

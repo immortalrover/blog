@@ -23,9 +23,7 @@ export default function Footer() {
           <div>{` • `}</div>
           <Link href="/">{siteMetadata.title}</Link>
         </div>
-        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-					鄂ICP备2023020195号-1
-        </div>
+        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">鄂ICP备2023020195号-1</div>
       </div>
     </footer>
   )

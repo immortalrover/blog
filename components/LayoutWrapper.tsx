@@ -9,8 +9,8 @@ interface Props {
 }
 
 const raleway = Raleway({
-	subsets: ['latin'],
-	display: 'swap',
+  subsets: ['latin'],
+  display: 'swap',
 })
 
 const LayoutWrapper = ({ children }: Props) => {
