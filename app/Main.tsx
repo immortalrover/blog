@@ -4,20 +4,26 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 
+// Main: manage the homepage.
+
+// you can set it for more display in the homepage
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
   return (
     <>
+			{/* a huge text at the left. for the beauty. */}
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest
           </h1>
+					{/* add site description here */}
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {siteMetadata.description}
           </p>
         </div>
+				{/* list for the first five blogs */} 
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
@@ -26,15 +32,18 @@ export default function Home({ posts }) {
               <li key={slug} className="py-12">
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+										{/* format date for blogs */}
                     <dl>
                       <dt className="sr-only">Published on</dt>
                       <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                       </dd>
                     </dl>
+										{/* blog card */}
                     <div className="space-y-5 xl:col-span-3">
                       <div className="space-y-6">
                         <div>
+													{/* blog title */}
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link
                               href={`/blog/${slug}`}
@@ -43,16 +52,19 @@ export default function Home({ posts }) {
                               {title}
                             </Link>
                           </h2>
+													{/* blog tags list */}
                           <div className="flex flex-wrap">
                             {tags.map((tag) => (
                               <Tag key={tag} text={tag} />
                             ))}
                           </div>
                         </div>
+												{/* blog description */}
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                           {summary}
                         </div>
                       </div>
+											{/* a link to read full content === title */}
                       <div className="text-base font-medium leading-6">
                         <Link
                           href={`/blog/${slug}`}
@@ -70,6 +82,7 @@ export default function Home({ posts }) {
           })}
         </ul>
       </div>
+			{/* See more posts */}
       {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base font-medium leading-6">
           <Link
@@ -81,6 +94,7 @@ export default function Home({ posts }) {
           </Link>
         </div>
       )}
+			{/* learn this later */}
       {siteMetadata.newsletter?.provider && (
         <div className="flex items-center justify-center pt-4">
           <NewsletterForm />

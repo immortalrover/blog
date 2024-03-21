@@ -11,6 +11,9 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
+// Layout: a layout above all page.
+
+// Use a cool font
 const raleway = Raleway({
   subsets: ['latin'],
   display: 'swap',

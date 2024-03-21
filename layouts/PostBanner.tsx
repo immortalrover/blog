@@ -10,6 +10,8 @@ import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
+// PostBanner: a layout with an image at the top of the post.
+
 interface LayoutProps {
   content: CoreContent<Blog>
   children: ReactNode

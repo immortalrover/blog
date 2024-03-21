@@ -4,6 +4,8 @@ import Footer from './Footer'
 import { ReactNode } from 'react'
 import Header from './Header'
 
+// the file is aborted.
+
 interface Props {
   children: ReactNode
 }

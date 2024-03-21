@@ -4,7 +4,9 @@ import { useState } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 
-const MobileNav = () => {
+// MobileNav: for mobile users.
+
+export default function MobileNav() {
   const [navShow, setNavShow] = useState(false)
 
   const onToggleNav = () => {
@@ -74,4 +76,3 @@ const MobileNav = () => {
   )
 }
 
-export default MobileNav

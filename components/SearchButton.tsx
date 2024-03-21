@@ -2,7 +2,8 @@ import { AlgoliaButton } from 'pliny/search/AlgoliaButton'
 import { KBarButton } from 'pliny/search/KBarButton'
 import siteMetadata from '@/data/siteMetadata'
 
-const SearchButton = () => {
+export default function SearchButton() {
+	// use algolia or kbar for search
   if (
     siteMetadata.search &&
     (siteMetadata.search.provider === 'algolia' || siteMetadata.search.provider === 'kbar')
@@ -31,4 +32,3 @@ const SearchButton = () => {
   }
 }
 
-export default SearchButton

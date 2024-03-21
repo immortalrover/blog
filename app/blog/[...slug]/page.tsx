@@ -15,6 +15,10 @@ import siteMetadata from '@/data/siteMetadata'
 import { notFound } from 'next/navigation'
 
 const defaultLayout = 'PostLayout'
+
+// PostBanner: a layout with an image at the top of the post.
+// PostLayout: default layout for blog. It's perfect enough.
+// PostSimple: just show the content.
 const layouts = {
   PostSimple,
   PostLayout,
