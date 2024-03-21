@@ -2,16 +2,20 @@ import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import Image from '@/components/Image'
 
+// AuthorLayout: for the author page but if you want, you can use it to create new page
+
 interface Props {
   children: ReactNode
   content: Omit<Authors, '_id' | '_raw' | 'body'>
 }
 
+// get chidren and content
 export default function AuthorLayout({ children, content }: Props) {
   const { name, avatar, occupation, company } = content
 
   return (
     <>
+			{/* if you do not have an avatar image, then center the title */}
       <div className="pt-8">
         <div
           className={`mb-8 flex flex-col-reverse items-center ${avatar ? 'justify-between' : 'justify-center'} sm:flex-row sm:items-center`}
