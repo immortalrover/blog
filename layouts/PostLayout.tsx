@@ -12,9 +12,10 @@ import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 // PostLayout: default layout for blog. It's perfect enough.
 
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
+// Url in the bottom, now it's not to use
+// const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
+// const discussUrl = (path) =>
+// `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -61,6 +62,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             <dl className="pb-10 pt-6 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
               <dt className="sr-only">Authors</dt>
               <dd>
+								{/* list all author */}
                 <ul className="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
                   {authorDetails.map((author) => (
                     <li className="flex items-center space-x-2" key={author.name}>
@@ -96,11 +98,14 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
               <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(path)} rel="nofollow">
-                  Discuss on Twitter
-                </Link>
+								{/* don't need */}
+                {/* <Link href={discussUrl(path)} rel="nofollow"> */}
+                  {/* Discuss on Twitter */}
+                {/* </Link> */}
+								MyQQ: 937972056
                 {` • `}
-                <Link href={editUrl(filePath)}>View on GitHub</Link>
+								Discuss on QQ.
+                {/* <Link href={editUrl(filePath)}>View on GitHub</Link> */}
               </div>
               {siteMetadata.comments && (
                 <div

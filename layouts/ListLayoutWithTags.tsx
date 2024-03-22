@@ -11,7 +11,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 
-// ListLayout: complex... let me see...
+// ListLayout: set list for blog and tags
 // next or prev
 // this file do not use.
 
@@ -117,6 +117,7 @@ export default function ListLayoutWithTags({
                   All Posts
                 </Link>
               )}
+							{/* list all tags */}
               <ul>
                 {sortedTags.map((t) => {
                   return (
@@ -140,12 +141,14 @@ export default function ListLayoutWithTags({
               </ul>
             </div>
           </div>
+					{/* list all tags posts */}
           <div>
             <ul>
               {displayPosts.map((post) => {
                 const { path, date, title, summary, tags } = post
                 return (
                   <li key={path} className="py-5">
+										{/* set space between posts */}
                     <article className="flex flex-col space-y-2 xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>
