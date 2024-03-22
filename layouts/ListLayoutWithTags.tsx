@@ -50,6 +50,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           <Link
             href={currentPage === 2 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
+						className='px-4 py-2 border-none shadow-none bg-inherit sm:bg-gray-50 sm:border sm:border-white sm:rounded-full sm:shadow dark:border-none dark:shadow-none dark:bg-inherit'
           >
             Previous
           </Link>
@@ -65,7 +66,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         )}
 				{/* next always have the /page/ */}
         {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
+          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next" className='px-4 py-2 border-none shadow-none bg-inherit sm:bg-gray-50 sm:border sm:border-white sm:rounded-full sm:shadow dark:border-none dark:shadow-none dark:bg-inherit'>
             Next
           </Link>
         )}
@@ -84,25 +85,31 @@ export default function ListLayoutWithTags({
   const pathname = usePathname()
 	// sort tags from tag-data.json
   const tagCounts = tagData as Record<string, number>
-  const tagKeys = Object.keys(tagCounts)
+  const tagKeys = Object.keys(tagCounts) // object tagData.
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
 
+	// initialDisplay some posts 
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
   return (
     <>
       <div>
         <div className="pb-6 pt-6">
+					{/* only show title in mobile phone */}
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             {title}
           </h1>
         </div>
-        <div className="flex sm:space-x-24">
+        <div className="flex sm:space-x-24"> 
+					{/* do not show in mobile phone. height = screen */}
+					{/* must set weight === 280px otherwise crash */}
           <div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 shadow-md dark:bg-gray-900/70 dark:shadow-gray-800/40 sm:flex">
             <div className="px-6 py-4">
               {pathname.startsWith('/blog') ? (
+								// blog's All Posts
                 <h3 className="font-bold uppercase text-primary-500">All Posts</h3>
               ) : (
+								// tag's All Posts
                 <Link
                   href={`/blog`}
                   className="font-bold uppercase text-gray-700 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
