@@ -6,6 +6,7 @@ import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'Uses' })
 export default function Page() {
+	// define auther type as Authors
   const author = allAuthors.find((p) => p.slug === 'uses') as Authors
   const mainContent = coreContent(author)
 

@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 
+// PageTitle: a title component for PostSimple, PostLayout, PostBanner layouts.
+// Here you can DIY the title 
 interface Props {
   children: ReactNode
 }

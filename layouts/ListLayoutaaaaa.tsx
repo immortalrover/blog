@@ -9,11 +9,19 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 
+// ListLayout: complex... let me see...
+// next or prev
+// this file do not use.
+
 interface PaginationProps {
+	// define totalPages as global value
   totalPages: number
+	// define currentPage as global value
   currentPage: number
 }
+
 interface ListLayoutProps {
+	// get coreContent
   posts: CoreContent<Blog>[]
   title: string
   initialDisplayPosts?: CoreContent<Blog>[]

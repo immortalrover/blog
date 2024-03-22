@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { tag: string } }):
   })
 }
 
-export const generateStaticParams = async () => {
+export async function generateStaticParams() {
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const paths = tagKeys.map((tag) => ({

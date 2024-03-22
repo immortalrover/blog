@@ -3,18 +3,24 @@
 import siteMetadata from '@/data/siteMetadata'
 import { useEffect, useState } from 'react'
 
-const ScrollTopAndComment = () => {
+// some buttons react top or bottom
+
+export default function ScrollTopAndComment() {
+	// default do not show the buttons
   const [show, setShow] = useState(false)
 
+	// scroll more to show buttons
   useEffect(() => {
     const handleWindowScroll = () => {
       if (window.scrollY > 50) setShow(true)
       else setShow(false)
     }
 
+		// listen the page scroll event
     window.addEventListener('scroll', handleWindowScroll)
+		// if you do not need it then clean it
     return () => window.removeEventListener('scroll', handleWindowScroll)
-  }, [])
+  }, []) // the [] means just do it once
 
   const handleScrollTop = () => {
     window.scrollTo({ top: 0 })
@@ -23,9 +29,11 @@ const ScrollTopAndComment = () => {
     document.getElementById('comment')?.scrollIntoView()
   }
   return (
+		// put it in the bottom right
     <div
       className={`fixed bottom-8 right-8 hidden flex-col gap-3 ${show ? 'md:flex' : 'md:hidden'}`}
     >
+			{/* button comments */}
       {siteMetadata.comments?.provider && (
         <button
           aria-label="Scroll To Comment"
@@ -41,6 +49,7 @@ const ScrollTopAndComment = () => {
           </svg>
         </button>
       )}
+			{/* button top */}
       <button
         aria-label="Scroll To Top"
         onClick={handleScrollTop}
@@ -58,4 +67,3 @@ const ScrollTopAndComment = () => {
   )
 }
 
-export default ScrollTopAndComment

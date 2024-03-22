@@ -23,6 +23,7 @@ export default function MobileNav() {
 
   return (
     <>
+			{/* menu button control open */}
       <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +43,7 @@ export default function MobileNav() {
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
+				{/* button control close */}
         <div className="flex justify-end">
           <button className="mr-8 mt-11 h-8 w-8" aria-label="Toggle Menu" onClick={onToggleNav}>
             <svg
@@ -58,6 +60,7 @@ export default function MobileNav() {
             </svg>
           </button>
         </div>
+				{/* list links in mobile */}
         <nav className="fixed mt-8 h-full">
           {headerNavLinks.map((link) => (
             <div key={link.title} className="px-12 py-4">

@@ -11,11 +11,18 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 
+// ListLayout: complex... let me see...
+// next or prev
+// this file do not use.
+
 interface PaginationProps {
+	// define totalPages as global value
   totalPages: number
+	// define currentPage as global value
   currentPage: number
 }
 interface ListLayoutProps {
+	// get coreContent
   posts: CoreContent<Blog>[]
   title: string
   initialDisplayPosts?: CoreContent<Blog>[]
@@ -24,21 +31,24 @@ interface ListLayoutProps {
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
+	// get pwd... because need have /page/xxx or not
   const basePath = pathname.split('/')[1]
-  const prevPage = currentPage - 1 > 0
-  const nextPage = currentPage + 1 <= totalPages
+  const prevPage = currentPage > 1
+  const nextPage = currentPage < totalPages
 
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
+				{/* no prev so disable and opacity-50 */}
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
             Previous
           </button>
         )}
+				{/* have prev ? prev is no.1 ? */} 
         {prevPage && (
           <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
+            href={currentPage === 2 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
           >
             Previous
@@ -47,11 +57,13 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <span>
           {currentPage} of {totalPages}
         </span>
+				{/* no next so disable and opacity-50 */}
         {!nextPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
             Next
           </button>
         )}
+				{/* next always have the /page/ */}
         {nextPage && (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
             Next
