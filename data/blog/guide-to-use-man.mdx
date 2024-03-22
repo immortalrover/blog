@@ -1,0 +1,71 @@
+---
+title: man command in Linux
+date: '2024-03-23'
+tags: ['linux', 'guide']
+lastmod:
+status: 'published'
+summary: 'In this article I introduce what is man, how to use man, why use man.'
+images:
+authors: ['default']
+layout:
+bibliography:
+canonicalUrl:
+---
+
+## What is man?
+
+`man` is a very efficient tool for developers that can help you solve all kinds of problems.
+But many people, especially Chinese people, don't use it well.
+
+One of the reasons is that it's all in English, and it takes some time to understand.
+
+To become an expert with it, you need some basic knowledge of English, but after you have a certain level of English, just enjoy it for fun.
+
+## How to use man
+
+### Try your hand
+
+Open your shell, quickly input the command.
+
+```Shell
+man man
+```
+
+You will see lots of English, but don't worry.
+There's no need to understand these English.
+
+Just try scrolling up or down with the mouse wheel, or swiping up or down on the touchpad.
+
+Then press the `q` key on the keyborad.
+
+Now you have gained a complete experience of using `man`. It's easy but powerful.
+
+### Quicker, quicker, quicker
+
+Please throw away your mouse. Then input the command.
+
+```Shell
+man less
+```
+
+Please spend a few minutes reading it.
+Try use some shortcuts.
+
+To follow your reading speed, I recommend use the key `d` for forward and the key `b` for backward.
+
+These shortcuts are very interesting.
+They can significantly improve your reading efficiency.
+
+### Try more
+
+Go find some programs you like. Then `man` it!
+
+> After downloading some programs, remember to update the mandb by `sudo mandb` or other commands. It can keep your shell's autocompletion up to date.
+
+## Why use man
+
+In fact, in the vast majority of cases, input `--help` can not solve your confusion.
+They can only provide limited text which is not enough to fully understand how the program works.
+
+And, basically, every developer will spend some effort to write man manual page but not `--help`.
+So using `man` is the best communication bridge between you and the program's author.
