@@ -1,0 +1,134 @@
+---
+title: Try write some Verilog code
+date: '2024-04-08'
+tags: ['Verilog', 'GUIDE']
+lastmod:
+status: 'published'
+summary: 'Some of my own feelings about writing Verilog code'
+images:
+authors: ['default']
+layout:
+bibliography:
+canonicalUrl:
+---
+
+## What's Verilog?
+
+**Verilog** is a hardware description language(HDL) used in the design and verification of digital circuits.
+It's widely used in the field of electronic design automation (EDA) for the design and verification of digital circuits at various levels of abstraction, ranging from high-level algorithmic descriptions to low-level gate-level implementations.
+
+**SystemVerilog** is an extension of the Verilog hardware description language (HDL) standardized by IEEE (IEEE 1800).
+It adds features to the original Verilog language, primarily aimed at improving productivity, design readability, and verification capabilities.
+
+## How to write Verilog code
+
+Here are some Verilog code guidelines:
+
+### Basic example
+
+```Verilog
+module xxxx (xxxx, xxxx, xxxx);
+    xxxx xxxx xxxx;
+endmodule
+```
+
+First, add `module` and `endmodule` at the beginning and end of your function.
+Make sure to place semicolons appropriately.
+
+```Verilog
+module myAnd (
+    input   A,
+    input   B,
+    output  C
+);
+assign  C = A & B;
+endmodule
+```
+
+Next, include the module name and list the parameters passed into it.
+
+Here's an example of how this could be written:
+
+```Verilog
+module myAnd (A, B, C);
+input   A;
+input   B;
+output  C;
+assign  C = A & B;
+// equal to "output C = A & B;"
+endmodule
+```
+
+### Add some regs
+
+```Verilog
+module myAnd (
+    input       A,
+    input       B,
+    output  reg C
+);
+
+always @(*)
+begin
+    C = A & B;
+end
+endmodule
+```
+
+Let the type of **C** change from `wire` to `reg`.
+This allows us to include **C** in the **always block** structure."
+
+### Add sequential logic
+
+```Verilog
+module myAnd (
+    input       clk,
+    input       A,
+    input       B,
+    output  reg C
+);
+
+always @(posedge clk)
+begin
+    C <= A & B;
+end
+endmodule
+```
+
+This is one with sequential logic added.
+The variable **C** will be assigned a value at each clock posedge.
+
+```Verilog
+module myAnd (
+    input       clk,
+    input       A,
+    input       B,
+    output  reg C,
+);
+
+reg D;
+reg E;
+reg F;
+
+always @(posedge clk)
+begin
+    D <= A & B;
+    E <= D;
+    F <= E;
+    C <= F;
+end
+endmodule
+```
+
+When the input value changes, the output value will change after some clocks.
+
+## Why use Verilog
+
+In fact, after you become familiar with Verilog, your circuit design capabilities will greatly improve.
+This is because every piece of your Verilog code logic can be translated into a real circuit.
+By learning to use tools like Icarus Verilog (iverilog) and GTKWave to debug Verilog code by observing waveforms, you will be able to understand the root causes of any bugs encountered in programming.
+
+## Reference
+
+-   [Verilog Grammer](https://vlab.ustc.edu.cn/guide/doc_verilog.html): A very good tutorial for verilog.
+-   [RISC-V CPU](https://github.com/immortalrover/riscvcpu): A RISC-V cpu I wrote using verilog.
