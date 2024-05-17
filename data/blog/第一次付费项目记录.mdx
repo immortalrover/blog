@@ -1,0 +1,309 @@
+---
+title: 第一次付费项目记录
+date: '2024-05-15'
+tags: ['项目', '经验']
+lastmod: '2024-05-18'
+<!-- status: 'draft' -->
+status: 'published'
+summary: '一次半自愿付费积累项目经验的经历'
+images:
+authors: ['default']
+layout:
+bibliography:
+canonicalUrl:
+---
+
+## 业务参考项目
+
+由于付费，所以更多的是模拟实际工作会遇到的一些场景。
+几位“学长”发了一份供参考的项目，先尝试性跑起来。
+|项目文件夹|每个文件夹的解释|
+|----------|----------------|
+|dep|环境安装教程|
+|intro|参考系统的解释与使用|
+|package|整合打包文件|
+|source-code|源码|
+|sql|数据库语句|
+|README.md|说明文档|
+
+(PS:学习项目要先从目录学起)
+
+## 环境准备
+
+在dep文件夹下，有几个专门提供给弱智阅读的pdf，避免因为智商不够而不能搭建好环境。
+
+### 虚拟机准备
+
+由于VMware官网暂时不让下载软件，群里发了一个VMware Workstation Pro 16离线包。
+
+创建好某款Linux的虚拟机后。
+
+### Docker安装
+
+```bash
+# 新装虚拟机的一些配置
+yum update
+yum install yum-utils device-mapper-persistent-data lvm2
+
+# 真正安装docker的步骤
+yum-config-manager --add-repo https://download.docker.com/linxu/centos/docker-ce.repo
+yum install docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            docker-compose-plugin
+
+# 查看docker版本，以及设置docker开机自启
+docker -v
+systemctl enable --now docker.service
+```
+
+(PS:yum是Centos系的包管理系统，类似于apt、brew)
+
+### MySQL安装
+
+```bash
+mkdir /home/mysql && cd /home/mysql
+docker pull mysql
+
+docker run -id \ # -i -d，-i代表允许标准写入，-d代表保持后台运行(也就是执行这条命令之后看不见输出)
+-p 3306:3306 \ # -p 端口映射的规则，3306是MySQL的默认端口(很多数据库默认用这个端口)
+--name mysql \ # 为你运行的容器起一个名字，起什么都行，最好是一个方便记忆的名字
+--restart always \ # 始终在容器停止时，重新启动容器
+-v $PWD/conf:/etc/mysql/conf.d \ # -v 映射目录，即将本地目录映射到容器里面去
+-v $PWD/log:/var/log/mysql \
+-v $PWD/data:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=123456 \ # -e 指的设置env，设置环境变量
+mysql \ # 这里正式指定run的容器，前面都是配置参数
+--lower_case_table_names=1 # MySQL的配置选项
+```
+
+(PS: $PWD是获取当前目录的意思，这也是为什么最开始要建立目录并且cd进去的原因)
+
+### MySQL连接
+
+使用Navicat软件连接数据库，这里需要虚拟机在物理机(你的windows)上的ip，并且给这个连接起个名字(名字任意)。
+
+(PS:能偷懒就偷懒咯，有现成的就不要花时间造轮子，下载链接:[Navicat](https://www.navicat.com/en/download/navicat-premium))
+
+### Redis安装
+
+提示：需要自行配置`redis.conf`文件
+
+```bash
+mkdir /home/redis && cd /home/redis
+docker pull redis
+
+docker run -id \
+-p 6379:6379 \
+--name redis \
+--restart always \
+-v $PWD/redis.conf:/etc/redis/redis.conf \
+-v $PWD/data:/data \
+redis \
+redis-server /etc/redis/redis.conf
+```
+
+### Redis连接
+
+使用Another Redis Desktop Manager连接Redis服务
+
+### Minio安装
+
+```bash
+mkdir /home/minio && cd /home/minio
+docker pull quay.io/minio/minio
+```
+
+编辑一个config.env文件
+
+```config.env
+MINIO_ROOT_USER=admin
+MINIO_ROOT_PASSWORD=123456
+MINIO_VOLUMES="/mnt/data"
+MINIO_OPTS="--console-address :9001"
+```
+
+```bash
+docker run -dt \
+-p 9000:9000 \
+-p 9001:9001 \
+--name minio \
+--restart always \
+-v $PWD/data:/mnt/data \
+-v $PWD/config.env:/etc/config.env \
+-e "MINIO_CONFIG_ENV_FILE=/etc/config.env" \
+quay.io/minio/minio \
+server --console-address ":9001"
+
+dokcer logs minio
+```
+
+### Minio连接
+
+浏览器访问 `{}:9001`，`{}`是你的虚拟机ip
+
+## 实际项目
+
+上面简单交代了一些在虚拟机上的配置(还有一部分Windows配置懒得写了)，然后用它们跑参考项目的源码就完了。
+
+下面是本次付费项目的内容。
+
+## 环境准备
+
+### Nacos安装
+
+```bash
+mkdir /home/nacos && cd /home/nacos
+touch nacos.yaml
+```
+
+然后在nacos.yaml中写入
+
+```yaml
+version: '2'
+service:
+    nacos:
+        image: nacos/nacos-server:v2.1.0
+        container_name: nacos
+        environment:
+            - PREFER_HOST_MODE=hostname
+            - MODE=standalone
+            - JVM_XMS=256m
+            - JVM_XMX=256m
+            - JVM_XMN=128m
+            - JVM_MS=32m
+            - JVM_MMS=80m
+        volumes:
+            - ./logs/:/home/nacos/logs
+            - ./init.d/custom.properties:/home/nacos/init.d/custom.properties
+        ports:
+            - '8848:8848'
+            - '9848:9848'
+```
+
+```bash
+docker compose -f nacos.yaml up -d
+```
+
+### Nacos连接
+
+浏览器访问 `{}:8848/nacos/`，`{}`是你的虚拟机ip
+
+账号: nacos
+
+密码: nacos
+
+### Nginx安装
+
+```bash
+mkdir /home/nginx/ && cd /home/nginx
+docker pull nginx
+
+mkdir conf logs conf/conf.d
+touch conf/nginx.conf conf/conf.d/80.conf
+```
+
+然后在nginx.conf写入
+
+```conf
+user nginx;
+worker_processes 1;
+error_log   /var/log/nginx/error_log warn;
+pid         /var/run/nginx.pid;
+events {
+    worker_connections 1024;
+}
+http {
+    include     /etc/nginx/mine.types;
+    default_type application/octet-stream;
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log  /var/log/nginx/access.log main;
+    sendfile    on;
+    #tcp_nopush on;
+    keepalive_timeout   65;
+    #gzip   on;
+    include /etc/nginx/conf.d/*.conf;
+}
+```
+
+在80.conf写入
+
+```conf
+server {
+    listen 80;
+    root /usr/share/nginx/html;
+    index index.php index.html index.htm;
+    error_page 500 502 503 504 /50x.html;
+    location / {}
+}
+```
+
+```bash
+docker run -id \
+-p 80:80
+--name nginx
+-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf \
+-v $PWD/conf/conf.d:/etc/nginx/conf.d \
+-v $PWD/logs:/var/log/nginx \
+-v $PWD/html:/usr/share/nginx/html \
+nginx
+```
+
+### Seata安装
+
+```bash
+mkdir /home/seata && cd /home/seata
+docker pull seataio/seata-server
+
+docker run -d \
+-p 8091:8091 \
+--name seata \
+seataio/seata-server
+
+docker cp seata:/seata-server/resources $PWD/seata-config
+docker cp seata:/seata-server/libs $PWD/libs
+docker stop seata
+docker rm seata
+vim seata-config/application.yml # 自行修改IP、端口、用户名、密码
+touch seata.yaml
+```
+
+然后在seata.yaml中写入
+
+```yaml
+version: '3'
+service:
+    seata-server:
+        image: seataio/seata-server
+        hostname: seata-server
+        container_name: seata-server
+        ports:
+            - '8091:8091'
+        environment:
+            - SEATA_PORT=8091
+            - SEATA_IP={} # 填入虚拟机IP
+        volumes:
+            - $PWD/seata-config:/seata-server/resources
+            - $PWD/libs:/seata-server/libs
+            - $PWD/sessionStore:/seata-server/sessionStore
+            - $PWD/logs:/root/logs
+```
+
+```bash
+docker compose up -d
+```
+
+### Seata验证
+
+在之前下载的Nacos平台里面查看是否有Seata服务
+
+### ELK安装
+
+自行查看[官网](https://www.elastic.co/cn/downloads/)
+
+### 其他安装
+
+这里由于部分安装步骤过于复杂，所以暂时忽略，不过这里可以指路。
+比如使用docker还安装了sentinel-dashboard、rocketmq、mongodb、jenkins，感兴趣的朋友可以自行查阅资料安装。
