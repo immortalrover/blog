@@ -1,0 +1,78 @@
+---
+title: A easy way to draw graph
+date: '2024-05-18'
+tags: ['dot', 'guide', 'graphviz']
+lastmod:
+status: 'published'
+summary: ''
+images:
+authors: ['default']
+layout:
+bibliography:
+canonicalUrl:
+---
+
+## What is dot?
+
+Dot is a very powerful compiler which can convert plain text into images.
+
+You can use it to generate various graphs.
+
+## How to use dot?
+
+First, download it from [Official website](https://graphviz.org/download/).
+
+Then, try write a `test.dot`.
+
+```Dot
+digraph test {
+    randir=TB; // From top to bottom. You can alse select BT、LR(from left to right)、RL.
+    node [shape=box, fontname="Source Han Sans CN"]; // shape=box、diamond...
+    edge [fontname="Source Han Sans CN"];
+    // The above is the default configuration for nodes and edges.
+
+    A [label="开始测试", style=rounded];
+    B [label="输入测试数据", shape=diamond];
+    C [label="正在测试"];
+    D [label="测试结束", style=rounded];
+
+    A -> B -> C -> D;
+}
+```
+
+```bash
+dot -Twebp test.dot -o test.webp
+#dot -Tpng test.dot -o test.png
+```
+
+Then, you'll get a picture like this.
+
+<Image alt="test picture" src="/static/images/test.png" width={256} height={256} />
+
+And you may want to write some complex graphs.
+
+```Dot
+digraph test123 {
+    a -> b -> c;
+    a -> {x, y};
+    b [shape=box];
+    c [label="hello\nworld", color="blue", fontsize=14];
+    a -> z [label="hi", weight=100];
+    x -> z [label="multi-line\nlabel"];
+    edge [style=dashed,color=red];
+    b -> x;
+    {rank=same; b x}
+}
+```
+
+(PS:generate from chatgpt)
+
+Below is the compiled picture.
+
+<Image alt="test123 picture" src="/static/images/test123.png" width={256} height={256} />
+
+And there have more [examples](https://graphviz.org/gallery/)
+
+## Why use dot?
+
+By using it, I can throw away stupid mouse operations and focus more on editing text.
